@@ -26,7 +26,7 @@ router.post('/:user_id/bookmarks/addBookmark', authenticateToken, async (req, re
     if (req.params.user_id !== req.user.id) {
         return res.status(403).json({ error: "Access denied" });
     }
-
+    
     try {
         let result = await addBookmark(req);
         res.status(200).json({ status: "Success", result });
