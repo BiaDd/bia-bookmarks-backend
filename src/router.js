@@ -63,6 +63,18 @@ router.get('/:user_id/searchManga', authenticateToken, async (req, res) => {
     }
 });
 
+router.get('/mangadex-cover', async (req, res) => {
+    const coverUrl = req.query.url;  // Get the image URL from the query parameter
+    try {
+        const response = await fetch(coverUrl);  // Fetch the image from MangaDex
+        const buffer = await response.buffer();
+        res.set('Content-Type', 'image/png'); // Set appropriate content type
+        res.send(buffer);  // Send the image back to the frontend
+    } catch (error) {
+        res.status(500).send('Failed to fetch image');
+    }
+});
+
 router.post('/:user_id/bookmarks/addBookmark', authenticateToken, async (req, res) => {
     if (req.params.user_id !== req.user.id) {
         return res.status(403).json({ error: "Access denied" });
